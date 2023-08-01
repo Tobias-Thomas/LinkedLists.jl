@@ -154,10 +154,13 @@ end
 # Treat the node as an index. It is also what
 # is used for the state in iterators.
 getindex(l::AbstractList, n::AbstractNode)=n.data
-function setindex!(l::LinkedList, n::AbstractNode, d)
+function setindex!(l::AbstractList, d, n::AbstractNode)
     n.data=d
 end
 
+# getindex (positiontoindex will error if idx is invalid)
+getindex(lst::AbstractList, idx::Int) = lst[positiontoindex(idx, lst)]
+setindex!(lst::AbstractList, d, idx::Int) = lst[positiontoindex(idx, lst)] = d
 
 #### Dequeues
 
@@ -330,5 +333,3 @@ end
 positiontoindex(v::Vector, l::AbstractList) = map(x -> positiontoindex(x, l), v)
 positiontoindex(::Nothing, _) = nothing
 
-# getindex (positiontoindex will error if idx is invalid)
-Base.getindex(lst::AbstractList, idx::Int) = lst[positiontoindex(idx, lst)]
